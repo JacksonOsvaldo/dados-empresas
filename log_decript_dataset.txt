@@ -1,0 +1,54 @@
+Iniciando processamento em 2020-06-27 02:00:57.230664
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_01.zip
+Bloco 1: até linha 200000. [Emps:0|Socios:0|CNAEs:0]
+INFORMACOES DO HEADER:
+Nome do arquivo: F.K032001K
+Data de gravacao: 20200425
+Numero da remessa: 00000001
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_02.zipAEs:488777]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_03.zipAEs:1053762]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_04.zipAEs:1642025]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_05.zipAEs:2186000]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_06.zipAEs:3101211]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_07.zipCNAEs:3959111]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_08.zipCNAEs:5012656]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_09.zipCNAEs:6169334]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_10.zipCNAEs:7157321]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_11.zipCNAEs:8394251]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_12.zipCNAEs:9625390]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_13.zipCNAEs:10863655]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_14.zipCNAEs:11945379]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_15.zipCNAEs:13192137]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_16.zipCNAEs:14418752]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_17.zipCNAEs:15564982]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_18.zipCNAEs:16759081]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_19.zipCNAEs:17406116]
+Processando arquivo: data/download/DADOS_ABERTOS_CNPJ_20.zipCNAEs:17691475]
+Bloco 23: até linha 4600000. [Emps:43862872|Socios:26953163|CNAEs:18157257]
+INFORMACOES DE CONTROLE:
+Total de registros de empresas: 43887581
+Total de registros de socios: 26968881
+Total de registros de CNAEs secundarios: 18168100
+Total de registros incluindo header e trailler: 89024564
+
+Conversao concluida. Validando quantidades:
+Total de registros de empresas: 43887581 ok
+Total de registros de socios: 26968881 ok
+Total de registros de CNAEs: 18168100 ok
+
+Arquivo SQLITE gerado: data/output/CNPJ_full.db
+OBS: Uso de índices altamente recomendado!
+              
+
+Criando índices...
+Essa operaçao pode levar vários minutos.
+    
+Index ix_empresas_cnpj criado.
+Index ix_empresas_raiz criado.
+Index ix_socios_cnpj criado.
+Index ix_socios_cpf_cnpj criado.
+Index ix_socios_nome criado.
+Index ix_cnaes_cnpj criado.
+Indices criados com sucesso.
+Processamento concluido em 2020-06-27 04:03:24.055049
+
