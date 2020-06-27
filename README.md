@@ -23,6 +23,7 @@ Dito isso, vamos ao que interessa.
 
 ### Instalando gerenciador de downloads aria2
 
+
 #### Fazendo download do aria2
 
 Vamos fazer o download da versão mais atual do aria2 a partir de seu [repositório](https://github.com/aria2/aria2/releases/tag/release-1.35.0)
@@ -36,6 +37,7 @@ Depois de feito o download, vamos extrair e  acessar sua pasta.
 ```
 tar -vzxf aria2-1.35.0.tar.gz && cd aria2-1.35.0
 ```
+
 
 #### Compilando o aria2
 
@@ -58,20 +60,31 @@ Caso seu ambiente Linux esteja sem alguma das bibliotecas para compilação em C
 ```
 sudo apt-get update
 
-
 sudo apt-get install build-essential
 ```
 
 Feito isso, tente reexecutar a compilação.
 
+
 #### Fazendo download dos arquivos da Receita Federal
 
-Feito o processo de compilação acima, já temos o aria2 instalado e podemos seguir para os próximos passos.
+Depois de instalado o aria2, vamos fazer download de todo dataset. Para isso, vamos executar o seguinte comando:
 
+```
+bash download_dados.sh
+```
+
+Os arquivos serão armazenados no diretório *data/download*. Esse processo pode levar de 3 à mais horas. Por isso estamos utilizando o *aria2*. Caso ocorra algum erro durante o download, o gerenciador vai retomar o download do ponto onde parou.
 
 
 ### Decodificando os arquivos/dataset
 
+Depois de feito todo download, precisamos decodificar nossa base de dados. Para isso, vamos utilizar um script feito em Python. Mas, antes de executarmos esse script, Precisamos configurar nosso ambiente.
+
+
+#### Configurando o ambiente
+
+Fazendo download do Python3.8
 
 ```
 sudo apt-get install python3.8
@@ -83,10 +96,28 @@ Para executarmos esse projeto, vamos seguir as recomendações da comunidade Pyt
 virtualenv -p python3.8 env
 ```
 
-Caso não tenha a *virtualenv* instalada, execute o seguinte comando
+Depois de criada, precisamos ativar nosso ambiente:
 
 ```
-sudo apt-get install virtualenv
+source env/bin/activate
 ```
 
+Depois de ativado nosso ambiente, vamos instalar as bibliotecas que usaremos.
 
+```
+pip install -U pip
+pip install -r requirements.txt
+```
+
+### Decodificando nossos arquivos 
+
+
+Para decodificar nosso dataset, vamos executar o seguinte comando:
+
+```
+python convert_cnpj.py data/download/ sqlite data/output/ --dir
+```
+
+Lembrando que essa execução deve ser feita com o ambiente ativado e com todas as dependências ativadas.
+
+Será gerado um arquivo *.db* no diretório *data/output/* para posterior análise no sqlite3.
