@@ -129,4 +129,7 @@ dmypy.json
 .pyre/
 
 #Ignorando dataset
-data/
+data/CNPJ_full.db
+
+#Ignorando VSCode
+.vscode

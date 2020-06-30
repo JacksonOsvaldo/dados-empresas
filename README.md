@@ -121,3 +121,9 @@ python convert_cnpj.py data/download/ sqlite data/output/ --dir
 Lembrando que essa execução deve ser feita com o ambiente ativado e com todas as dependências ativadas.
 
 Será gerado um arquivo *.db* no diretório *data/output/* para posterior análise no sqlite3.
+
+## Referência
+
+CNPJ Full - https://github.com/fabioserpa/CNPJ-full
+
+Sócios Brasil - https://github.com/turicas/socios-brasil
