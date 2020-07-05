@@ -5,7 +5,7 @@
   {
       function __construct()
       {
-          $this->open('../data/CNPJ_full.db');
+          $this->open('./data/CNPJ_full.db');
       }
   }
 
@@ -16,7 +16,13 @@
   $db->query('INSERT INTO dados_socios(nome_socio) VALUES ("'.$nome_socio.'")');
 
   $result = $db->query('SELECT nome_socio from dados_socios where nome_socio = "'.$nome_socio.'" limit 1');
-  
+  $number_of_rows = 0;//for now
+  while($row = $result->fetchArray()) {
+        $number_of_rows += 1;
+
+    }
+    echo "Number of rows: $number_of_rows";
+
   
   // print_r($result->fetchArray());
   $results = [];
