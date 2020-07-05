@@ -17,9 +17,9 @@ c = conn.cursor()
 
 def createTable():
     try:
+        c.execute("CREATE TABLE dados_socios(numIndex TEXT, cpf TEXT, nomePrimeiro TEXT, nomeMeio TEXT, nomeUltimo TEXT, nome_socio TEXT)")
         c.execute(
-            "CREATE TABLE dados_socios (numIndex TEXT,cpf TEXT, nomePrimeiro TEXT, nomeMeio TEXT, nomeUltimo TEXT)"
-        )
+            "CREATE UNIQUE INDEX idx_nome_socio ON dados_socios (nome_socio);")
     except:
         print('\nOcorreu um erro ao criar a tabela. Verfique se já não está criada.')
 
@@ -63,4 +63,4 @@ def updateDB(parameter_list):
 
 
 createTable()
-lerJson()
+# lerJson()
