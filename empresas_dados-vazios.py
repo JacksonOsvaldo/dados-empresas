@@ -8,7 +8,7 @@ Código para consulta e listagem de CNPJs que tem informações incompletas ou e
 import sqlite3 as sq
 
 conn = sq.connect(
-    "data/CNPJ_full.db"
+    "../dataset_receita/DB/CNPJ_full.db"
 )
 
 c = conn.cursor()

@@ -1,6 +1,6 @@
 <?php
 
-	$filename = "/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/lista_cnpjs_vazios.csv";
+	$filename = "../lista_cnpjs_vazios.csv";
 	$handle = fopen($filename, "r");
 	$contents = fread($handle, filesize($filename));
 

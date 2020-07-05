@@ -1,55 +1,63 @@
 <?php
-	
 
-	
-	$filename = "../lista_cnpjs_vazios.csv";
+	$filename = "../lista_socios_vazios.csv";
 	$handle = fopen($filename, "r");
 	$contents = fread($handle, filesize($filename));
 
-    $dados = explode(",", $contents);
+    $dados = explode(",\n", $contents);
     // print_r($dados);
 
     $i = 0;
-    $cnpjs = array();
+    $nomes = array();
     $nomes_file = array();
 	foreach($dados as $key => $val) {
-       
-        $cnpj = $val;
-        
+        $dado = explode(",", $val);
+        $cnpj = $dado[0];
+        $nome = $dado[1];
 
-		$nome_file = "$cnpj";
+		$nome_file = "$nome";
 
-		if (file_exists("cnpjs_json/$nome_file.json")){
+		if (file_exists("socios_json/$nome_file.json")){
 			$zip = new ZipArchive();
-			$filename = "cnpjs_json/$nome_file.zip";
+			$filename = "socios_json/$nome_file.zip";
 
 			echo "$filename\n";
 
 			if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
 			    exit("cannot open <$filename>\n");
 			}
-			echo "cnpjs_json/$nome_file.json\n";
-			$zip->addFile("cnpjs_json/$nome_file.json");
+			echo "socios_json/$nome_file.json\n";
+			$zip->addFile("socios_json/$nome_file.json");
 			echo "numfiles: " . $zip->numFiles . "\n";
 			echo "status:" . $zip->status . "\n";
 			$zip->close();
 
-			unlink("cnpjs_json/$nome_file.json");
+			unlink("socios_json/$nome_file.json");
 			continue;
 		}
 
-		if (file_exists("cnpjs_json/$nome_file.zip")){
+		if (file_exists("socios_json/$nome_file.zip")){
 			// echo "Ja existe $nome_json\n";
 			continue;
 		}
 
         array_push($nomes_file, $nome_file);
 
-        
-        array_push($cnpjs, $cnpj);
-        
-        
-       
+        // $payload = "Jose Roberto de Oliveira";
+        // $payload = "\"$dado[1]\",\"Jose Roberto de Oliveira\"";
+        // $payload = ["IVANDRE MONTIEL DA SILVA","Jose Roberto de Oliveira"';
+        // $payload = ["Pedro Sousa Mendes"];
+        // $payload = [$dado[1],'Anna Karolyne de Goes Menezes'];
+        // $payload = array($dado[1]);
+        array_push($nomes, $dado[1]);
+        // $payload[] = $dado[1];
+        // Anna Karolyne de Goes Menezes,Pedro Sousa Mendes
+        // $payload = json_encode([$dado[1],"Jose Roberto de Oliveira"]);
+        $payload = json_encode($nomes);
+        // echo $payload;
+        // die;
+        // print_r($dado);
+        // die;
 
         $i++;
 
@@ -60,7 +68,7 @@
 			continue;
 		}
 
-		$curl = curl_init('https://targetdatasmart.com/api/PJ/CNPJ');
+		$curl = curl_init('https://targetdatasmart.com/api/PF/NOME');
 
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -71,7 +79,7 @@
 			"Content-Type: application/json",
 			"Accept: application/json"
 		  ));
-		$payload = json_encode($cnpjs);
+
 		echo "$payload\n";
 		// die;
 
@@ -87,42 +95,42 @@
 			// echo "$val\n";
 
 			if ($salvar_json) {
-				$salvar_cnpj = $val;
-				$fp = fopen("cnpjs_json/$val.json", 'w');
-				// $fp = fopen("cnpjs_json/00000000020389-IVANDRE MONTIEL DA SILVA.json", 'w');
+				$salvar_nome = $val;
+				$fp = fopen("socios_json/$val.json", 'w');
+				// $fp = fopen("socios_json/00000000020389-IVANDRE MONTIEL DA SILVA.json", 'w');
 				fwrite($fp, $json_response);
 				fclose($fp);
 				$salvar_json = 0;	
 			} else {
-				$fp = fopen("cnpjs_json/$val.json", 'w');
-				// $fp = fopen("cnpjs_json/00000000020389-IVANDRE MONTIEL DA SILVA.json", 'w');
-				fwrite($fp, json_encode($salvar_cnpj));
+				$fp = fopen("socios_json/$val.json", 'w');
+				// $fp = fopen("socios_json/00000000020389-IVANDRE MONTIEL DA SILVA.json", 'w');
+				fwrite($fp, json_encode($salvar_nome));
 				fclose($fp);
 				// die;		
 			}
 
 			$zip = new ZipArchive();
-			$filename = "cnpjs_json/$val.zip";
+			$filename = "socios_json/$val.zip";
 
 			// echo "$filename\n";
 
 			if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
 			    exit("cannot open <$filename>\n");
 			}
-			// echo "cnpjs_json/$val.json\n";
-			$zip->addFile("cnpjs_json/$val.json");
+			// echo "socios_json/$val.json\n";
+			$zip->addFile("socios_json/$val.json");
 			// echo "numfiles: " . $zip->numFiles . "\n";
 			// echo "status:" . $zip->status . "\n";
 			$zip->close();
 
-			unlink("cnpjs_json/$val.json");
+			unlink("socios_json/$val.json");
 			
 		}
 
 		$i = 0;
-		unset ($cnpjs);
+		unset ($nomes);
 		unset($nomes_file);
-	    $cnpjs = array();
+	    $nomes = array();
 	    $nomes_file = array();
 	}
 
@@ -130,6 +138,6 @@
 	
 	// die;	
 	
-	
+	print($json_response);
 	
 ?>
