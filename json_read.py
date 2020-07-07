@@ -21,7 +21,8 @@ c = conn.cursor()
 
 def lerJson(arquivo_zip_json):
     # Opening JSON file
-    f = open('{}'.format(arquivo_zip_json), 'r')
+    f = open(arquivo_zip_json, 'r')
+    print(f.name)
 
     # returns JSON object as dictionary
     data = json.load(f)
@@ -33,49 +34,47 @@ def lerJson(arquivo_zip_json):
 
     sqlite_insert_with_param = """INSERT INTO dados_socios(numIndex, cpf, nomePrimeiro, nomeMeio, nomeUltimo) VALUES (?,?,?,?,?)"""
 
-    for v in data[1]:
+    try:
+        for v in data['result']:
 
-        tuplaData = (str(a),
-                     str(v.get('pessoa')['cadastral'].get('CPF')),
-                     str(v.get('pessoa')['cadastral'].get('nomePrimeiro')),
-                     str(v.get('pessoa')['cadastral'].get('nomeMeio')),
-                     str(v.get('pessoa')['cadastral'].get('nomeUltimo')))
+            tuplaData = (str(a),
+                         str(v.get('pessoa')['cadastral'].get('CPF')),
+                         str(v.get('pessoa')['cadastral'].get('nomePrimeiro')),
+                         str(v.get('pessoa')['cadastral'].get('nomeMeio')),
+                         str(v.get('pessoa')['cadastral'].get('nomeUltimo')))
 
-        a += 1
+            a += 1
 
-        conn.execute(sqlite_insert_with_param, tuplaData)
+            conn.execute(sqlite_insert_with_param, tuplaData)
 
-        conn.commit()
+            conn.commit()
 
-    f.close()
-    os.remove(arquivo_zip_json)
-    print('Leitura concluida. Arquivo excluido.')
+            f.close()
+
+            continue
+        os.remove(arquivo_zip_json)
+        print('Leitura concluida.')
+
+    except:
+
+        os.remove(arquivo_zip_json)
+
+        print('Arquivo excluido. TypeERROR')
 
 
 def lendoArquivos():
 
     for i in listdir('teste'):
-        # try:
 
         if zip.is_zipfile(join('teste', i)):
 
             with zip.ZipFile('teste/{}'.format(i), 'r') as meuZip:
 
-                meuZip.extract(member=str(meuZip.filelist[0]), path='api/')
-                print(meuZip.filelist)
+                meuZip.extractall(path='api/')
 
-        # except:
-        #     # print('deu ruim')
-        #     continue
+                teste = listdir('api/socios_json/')
 
-
-def lerZip():
-
-    with zip.ZipFile('teste/00000000004502-FABIO AUGUSTO CANTIZANI BARBOSA.zip') as myzip:
-        a = myzip.filename
-        print(a)
-        # with myzip.open('socios_json/00000000004502-FABIO AUGUSTO CANTIZANI BARBOSA.json') as myfile:
-        # print(myfile.fileno())
+                lerJson('api/socios_json/'+teste[0])
 
 
 """
@@ -95,7 +94,39 @@ def createTable():
         print('\nOcorreu um erro ao criar a tabela. Verfique se já não está criada.')
 
 
+def testeJson():
+    # Opening JSON file
+    f = open('teste/00000000004502-FABIO AUGUSTO CANTIZANI BARBOSA.json', 'r')
+    # print(f.name)
+
+    # returns JSON object as dictionary
+    data = json.load(f)
+
+    a = 0
+    tabelas = ['cadastral', 'beneficiarioProgramaSocial',
+               'contato', 'vinculo', 'patrimonio', 'socioDemografico']
+
+    cadastralKeys = ['CPF', 'nomePrimeiro', 'nomeMeio', 'nomeUltimo', 'nomeParentesco', 'sexo', 'dataNascimento', 'statusReceitaFederal', 'rgNumero', 'rgOrgaoEmissor', 'rgUf',
+                     'tituloEleitoral', 'obito', 'nacionalidade', 'menorDeIdade', 'pep', 'estadoCivil', 'maeCPF', 'maeNomePrimeiro', 'maeNomeMeio', 'maeNomeUltimo', 'maeNomeParentesco', 'escolaridade', 'cns']
+    for v in data['result']:
+        a += 1
+        teste = ""
+        b = 0
+        # for tabel in tabelas:
+        #     print(tabel)
+        #     b += 1
+        for item in cadastralKeys:
+            print(v.get('pessoa')['cadastral'].get(item))
+        # b += 1
+        #     # teste += key + ','
+        #     print(valor)
+        # # print(teste)
+        if a == 1:
+            break
+
+
+testeJson()
 # lerZip()
-lendoArquivos()
+# lendoArquivos()
 # createTable()
 # lerJson()
