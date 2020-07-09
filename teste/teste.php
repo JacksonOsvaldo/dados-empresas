@@ -1,5 +1,9 @@
 <?php
   // $dir = 'sqlite:/var/www/html/con/banco.db';
+  $str = str_replace("/", "", "S/A");
+
+  echo $str;
+  die;
   
   class MyDB extends SQLite3
   {

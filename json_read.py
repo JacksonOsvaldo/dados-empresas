@@ -32,16 +32,17 @@ def lerJson(arquivo_zip_json):
 
     a = 0
 
-    sqlite_insert_with_param = """INSERT INTO dados_socios(numIndex, cpf, nomePrimeiro, nomeMeio, nomeUltimo) VALUES (?,?,?,?,?)"""
+    sqlite_insert_with_param = """INSERT INTO cadastral(CPF, nomePrimeiro, nomeMeio, nomeUltimo, nomeParentesco) VALUES (?,?,?,?,?)"""
 
     try:
         for v in data['result']:
 
-            tuplaData = (str(a),
-                         str(v.get('pessoa')['cadastral'].get('CPF')),
+            tuplaData = (str(v.get('pessoa')['cadastral'].get('CPF')),
                          str(v.get('pessoa')['cadastral'].get('nomePrimeiro')),
                          str(v.get('pessoa')['cadastral'].get('nomeMeio')),
-                         str(v.get('pessoa')['cadastral'].get('nomeUltimo')))
+                         str(v.get('pessoa')['cadastral'].get('nomeUltimo')),
+                         str(v.get('pessoa')['cadastral'].get('nomeParentesco')))
+            print(tuplaData)
 
             a += 1
 
@@ -84,45 +85,77 @@ Função que cria a tabela de dados complementares no DB.
 
 def createTable():
     try:
+
         c.execute(
-            "CREATE TABLE dados_socios(numIndex TEXT, cpf TEXT, nomePrimeiro TEXT, nomeMeio TEXT, nomeUltimo TEXT, nome_socio TEXT)"
+            "CREATE TABLE cadastral(CPF TEXT, nomePrimeiro TEXT, nomeMeio TEXT, nomeUltimo TEXT, nomeParentesco TEXT, sexo TEXT, dataNascimento TEXT, statusReceitaFederal TEXT, rgNumero TEXT, rgOrgaoEmissor TEXT, rgUf TEXT, tituloEleitoral TEXT, obito TEXT, nacionalidade TEXT, menorDeIdade TEXT, pep TEXT, estadoCivil TEXT, maeCPF TEXT, maeNomePrimeiro TEXT, maeNomeMeio TEXT, maeNomeUltimo TEXT, maeNomeParentesco TEXT, escolaridade TEXT, cns TEXT)"
         )
-        c.execute(
-            "CREATE UNIQUE INDEX idx_nome_socio ON dados_socios (nome_socio);"
-        )
+
+        # c.execute(
+        #     "CREATE UNIQUE INDEX idx_nome_socio ON dados_socios (nome_socio);"
+        # )
     except:
         print('\nOcorreu um erro ao criar a tabela. Verfique se já não está criada.')
 
 
+# def testeJson():
+#     # Opening JSON file
+#     f = open('teste/00000000004502-FABIO AUGUSTO CANTIZANI BARBOSA.json', 'r')
+#     # print(f.name)
+
+#     # returns JSON object as dictionary
+#     data = json.load(f)
+
+#     a = 0
+
+#     for v in data['result']:
+#         a += 1
+
+#         for key in v.get('pessoa')['cadastral']:
+#             # coluna = list(key)
+#             valor = tuple(v.get('pessoa')['cadastral'].get(key))
+#             print(valor)
+
+#             # conn.execute(
+#             #     'INSERT INTO cadastral({}) VALUES ({})'.format(coluna, valor))
+#             # conn.commit()
+#             continue
+
+#         if a == 10:
+#             break
+
 def testeJson():
-    # Opening JSON file
+
     f = open('teste/00000000004502-FABIO AUGUSTO CANTIZANI BARBOSA.json', 'r')
-    # print(f.name)
+    print(f.name)
 
     # returns JSON object as dictionary
     data = json.load(f)
 
+    colunas = list()
+    linha = list()
     a = 0
-    tabelas = ['cadastral', 'beneficiarioProgramaSocial',
-               'contato', 'vinculo', 'patrimonio', 'socioDemografico']
-
-    cadastralKeys = ['CPF', 'nomePrimeiro', 'nomeMeio', 'nomeUltimo', 'nomeParentesco', 'sexo', 'dataNascimento', 'statusReceitaFederal', 'rgNumero', 'rgOrgaoEmissor', 'rgUf',
-                     'tituloEleitoral', 'obito', 'nacionalidade', 'menorDeIdade', 'pep', 'estadoCivil', 'maeCPF', 'maeNomePrimeiro', 'maeNomeMeio', 'maeNomeUltimo', 'maeNomeParentesco', 'escolaridade', 'cns']
+    b = ('')
     for v in data['result']:
+
+        # print(v.values())
+
         a += 1
-        teste = ""
-        b = 0
-        # for tabel in tabelas:
-        #     print(tabel)
-        #     b += 1
-        for item in cadastralKeys:
-            print(v.get('pessoa')['cadastral'].get(item))
-        # b += 1
-        #     # teste += key + ','
-        #     print(valor)
-        # # print(teste)
+
+        for t in v.get('pessoa')['cadastral']:
+
+            if v.get('pessoa')['cadastral'].get(t) == None:
+                b = "''"+','+b
+            else:
+                b = v.get('pessoa')['cadastral'].get(t)+','+b
+
+        print(tuple(b))
         if a == 1:
             break
+
+        # sql = 'INSERT INTO cadastral ({}) VALUES (?)'.format(t)
+        # conn.execute(sql, [v.get('pessoa')['cadastral'].get(
+        #     t)] + [v.get('pessoa')['cadastral'].get(t)])
+        # conn.commit()
 
 
 testeJson()
