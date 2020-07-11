@@ -2,7 +2,7 @@ from os.path import isfile, join
 from os import listdir
 import json
 import zipfile as zip
-# import cadastral_Json as cds
+
 from convert_json import cadastral as cds
 
 
