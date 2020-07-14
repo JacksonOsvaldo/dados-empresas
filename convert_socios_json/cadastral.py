@@ -3,8 +3,8 @@
 import json
 # import sqlite3 as sq
 import os
-from convert_json import db
-from convert_json import criarTabela as ct
+from convert_socios_json import db
+from convert_socios_json import criarTabela as ct
 
 
 def lerJson(arquivo_zip_json):
@@ -14,9 +14,6 @@ def lerJson(arquivo_zip_json):
 
     # returns JSON object as dictionary
     data = json.load(f)
-
-    # Iterating through the json
-    # list
 
     try:
         print('Convertendo cadastros...')

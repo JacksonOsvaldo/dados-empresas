@@ -4,8 +4,8 @@ import os
 import json
 import zipfile as zip
 
-from convert_json import cadastral as cds
-from convert_json import contatoEndereco as ce
+from convert_socios_json import cadastral as cds
+from convert_socios_json import contatoEndereco as ce
 
 
 def lendoArquivos():

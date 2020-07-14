@@ -5,7 +5,7 @@
 Ler JSONS e, com base na leitura, criar tabela no db
 """
 
-from convert_json import lendoArquivos
+from convert_socios_json import lendoArquivos
 
 if __name__ == "__main__":
 

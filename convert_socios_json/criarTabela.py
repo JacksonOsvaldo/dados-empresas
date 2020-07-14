@@ -1,4 +1,4 @@
-from convert_json import db
+from convert_socios_json import db
 
 
 def cadastral():
