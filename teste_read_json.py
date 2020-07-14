@@ -10,39 +10,56 @@ c = conn.cursor()
 
 f = open('teste/00000000004502-FABIO AUGUSTO CANTIZANI BARBOSA.json', 'r')
 
-print(f.name)
+# print(f.name)
 
 # returns JSON object as dictionary
 
 data = js.load(f)
 
-linha = dict()
-row = list()
-a = 0
+a = int(0)
+
 for v in data['result']:
 
-    # print(v.get('pessoa').get('contato'))
-    # linha = v.get('pessoa').get('contato').get('endereco')
-    # values = tuple(linha.values())
+    a += 1
 
-    print(v.get('pessoa').get('contato').get('endereco'))
-    if a == 1:
-        break
+    listaValores = v.get('pessoa').get('contato').get('endereco')
 
+    # print(v.get('pessoa').get('cadastral').get('CPF'), len(linha))
 
-# for v in data['result']:
+    for valor in range(len(listaValores)):
 
-#     linha = v.get('pessoa').get('cadastral')
+        try:
 
-#     keys = ','.join(linha.keys())
+            linha = v.get('pessoa').get('contato').get('endereco')[valor]
 
-#     question_marks = ','.join(list('?'*len(linha)))
+            keys = ','.join(linha.keys())
 
-#     values = tuple(linha.values())
+            print(keys)
 
-#     print(values)
+            values = tuple(linha.values())
+            values = (v.get('pessoa').get('cadastral').get('CPF'),) + values
+            question_marks = ','.join(list('?'*(len(values))))
 
-#     conn.execute('INSERT INTO contatos ('+keys +
-#                  ') VALUES ('+question_marks+')', values)
+            print(values)
+            conn.execute('INSERT INTO contato (CPF,'+keys +
+                         ') VALUES ('+question_marks+')', values)
 
-#     conn.commit()
+            conn.commit()
+
+        except sq.OperationalError:
+
+            c.execute(
+                "CREATE TABLE contato(CPF TEXT, tipoLogradouro TEXT, logradouro TEXT, numero TEXT, complemento TEXT, bairro TEXT, cidade TEXT, uf TEXT, cep TEXT, ordem TEXT)"
+            )
+
+            # c.execute(
+            #     "CREATE UNIQUE INDEX idx_CPF ON contato (CPF);"
+            # )
+            conn.execute('INSERT INTO contato (CPF,'+keys +
+                         ') VALUES ('+question_marks+')', values)
+
+            conn.commit()
+
+    # if a == 1:
+
+    #     break

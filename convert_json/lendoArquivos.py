@@ -1,9 +1,11 @@
 from os.path import isfile, join
 from os import listdir
+import os
 import json
 import zipfile as zip
 
 from convert_json import cadastral as cds
+from convert_json import contatoEndereco as ce
 
 
 def lendoArquivos():
@@ -19,3 +21,5 @@ def lendoArquivos():
                 teste = listdir('api/socios_json/')
 
                 cds.lerJson('api/socios_json/'+teste[0])
+                ce.lerJson('api/socios_json/'+teste[0])
+                # os.remove('api/socios_json/'+teste[0])

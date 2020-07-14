@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# import json_to_sqlite as jq
 import json
-import sqlite3 as sq
+# import sqlite3 as sq
 import os
 from convert_json import db
+from convert_json import criarTabela as ct
 
 
 def lerJson(arquivo_zip_json):
@@ -19,6 +19,7 @@ def lerJson(arquivo_zip_json):
     # list
 
     try:
+        print('Convertendo cadastros...')
         for v in data['result']:
 
             linha = v.get('pessoa').get('cadastral')
@@ -29,23 +30,28 @@ def lerJson(arquivo_zip_json):
 
             values = tuple(linha.values())
 
-            print(values)
+            # print(values)
 
-            db.conn.execute('INSERT INTO contatos ('+keys +
+            db.conn.execute('INSERT INTO cadastral ('+keys +
                             ') VALUES ('+question_marks+')', values)
 
             db.conn.commit()
 
-        os.remove(arquivo_zip_json)
+        # os.remove(arquivo_zip_json)
         print('Leitura concluida.')
 
-    # except sq.OperationalError as e:
+    except ct.db.sq.OperationalError:
 
-    #     print(e)
+        ct.cadastral()
+
+        db.conn.execute('INSERT INTO cadastral ('+keys +
+                        ') VALUES ('+question_marks+')', values)
+
+        db.conn.commit()
 
     except:
 
-        os.remove(arquivo_zip_json)
+        # os.remove(arquivo_zip_json)
 
         print('Arquivo excluido. TypeERROR')
 
