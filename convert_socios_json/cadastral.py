@@ -37,7 +37,7 @@ def lerJson(arquivo_zip_json):
         # os.remove(arquivo_zip_json)
         print('Leitura concluida.')
 
-    except ct.db.sq.OperationalError:
+    except db.sq.OperationalError:
 
         ct.cadastral()
 

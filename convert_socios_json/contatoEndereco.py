@@ -43,14 +43,14 @@ def lerJson(arquivo_zip_json):
                     question_marks = ','.join(list('?'*(len(values))))
 
                     # print(values)
-                    db.conn.execute('INSERT INTO contato (CPF,'+keys +
+                    db.conn.execute('INSERT INTO contato_endereco (CPF,'+keys +
                                     ') VALUES ('+question_marks+')', values)
 
                     db.conn.commit()
 
                 except ct.db.sq.OperationalError:
-                    ct.contato()
-                    db.conn.execute('INSERT INTO contato (CPF,'+keys +
+                    ct.contato_endereco()
+                    db.conn.execute('INSERT INTO contato_endereco (CPF,'+keys +
                                     ') VALUES ('+question_marks+')', values)
 
                     db.conn.commit()
@@ -60,9 +60,9 @@ def lerJson(arquivo_zip_json):
 
     except ct.db.sq.OperationalError:
 
-        ct.cadastral()
+        ct.contato_endereco()
 
-        db.conn.execute('INSERT INTO cadastral ('+keys +
+        db.conn.execute('INSERT INTO contato_endereco (CPF,'+keys +
                         ') VALUES ('+question_marks+')', values)
 
         db.conn.commit()
