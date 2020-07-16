@@ -19,19 +19,16 @@ def lerJson(arquivo_zip_json):
     # list
 
     try:
-        print('Extraindo contatos: Endereco..')
+        print('Extraindo contatos: E-mail..')
         for v in data['result']:
 
-            listaValores = v.get('pessoa').get('contato').get('endereco')
-
-    # print(v.get('pessoa').get('cadastral').get('CPF'), len(linha))
+            listaValores = v.get('pessoa').get('contato').get('email')
 
             for valor in range(len(listaValores)):
-
                 try:
 
                     linha = v.get('pessoa').get(
-                        'contato').get('endereco')[valor]
+                        'contato').get('email')[valor]
 
                     keys = ','.join(linha.keys())
 
@@ -43,14 +40,14 @@ def lerJson(arquivo_zip_json):
                     question_marks = ','.join(list('?'*(len(values))))
 
                     # print(values)
-                    db.conn.execute('INSERT INTO pf_contato_endereco (CPF,'+keys +
+                    db.conn.execute('INSERT INTO pf_contato_email (CPF,'+keys +
                                     ') VALUES ('+question_marks+')', values)
 
                     db.conn.commit()
 
                 except ct.db.sq.OperationalError:
                     ct.contato_endereco()
-                    db.conn.execute('INSERT INTO pf_contato_endereco (CPF,'+keys +
+                    db.conn.execute('INSERT INTO pf_contato_email (CPF,'+keys +
                                     ') VALUES ('+question_marks+')', values)
 
                     db.conn.commit()
@@ -61,7 +58,7 @@ def lerJson(arquivo_zip_json):
 
     except:
 
-        # os.remove(arquivo_zip_json)
+        os.remove(arquivo_zip_json)
 
         print('Arquivo excluido. TypeERROR')
 

@@ -10,26 +10,28 @@ from convert_socios_json import criarTabela as ct
 def lerJson(arquivo_zip_json):
     # Opening JSON file
     f = open(arquivo_zip_json, 'r')
-    print('Arquivo: ', f.name)
+    # print(f.name)
 
     # returns JSON object as dictionary
     data = json.load(f)
 
     try:
-        print('Extraindo cadastros...')
+        print('Extraindo beneficiarioProgramaSocial...')
         for v in data['result']:
 
-            linha = v.get('pessoa').get('cadastral')
+            linha = v.get('pessoa').get('beneficiarioProgramaSocial')
 
             keys = ','.join(linha.keys())
 
-            question_marks = ','.join(list('?'*len(linha)))
+            # print(keys)
 
             values = tuple(linha.values())
+            values = (v.get('pessoa').get(
+                'cadastral').get('CPF'),) + values
+            question_marks = ','.join(list('?'*(len(values))))
 
             # print(values)
-
-            db.conn.execute('INSERT INTO pf_cadastral ('+keys +
+            db.conn.execute('INSERT INTO pf_beneficiarioProgramaSocial (CPF,'+keys +
                             ') VALUES ('+question_marks+')', values)
 
             db.conn.commit()
@@ -39,9 +41,9 @@ def lerJson(arquivo_zip_json):
 
     except db.sq.OperationalError:
 
-        ct.cadastral()
+        ct.beneficiarioProgramaSocial()
 
-        db.conn.execute('INSERT INTO pf_cadastral ('+keys +
+        db.conn.execute('INSERT INTO pf_beneficiarioProgramaSocial (CPF,'+keys +
                         ') VALUES ('+question_marks+')', values)
 
         db.conn.commit()
