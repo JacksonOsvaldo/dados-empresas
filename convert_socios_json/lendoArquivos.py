@@ -5,11 +5,7 @@ import json
 import zipfile as zip
 import shutil
 
-from convert_socios_json import cadastral as cds
-from convert_socios_json import beneficiarioProgramaSocial as bps
-from convert_socios_json import contatoEndereco as ce
-from convert_socios_json import contatoEmail
-from convert_socios_json import contatoTelefones
+from pymongo import MongoClient
 
 
 def movendoArquivo(nome_do_arquivo_zip):
@@ -17,6 +13,23 @@ def movendoArquivo(nome_do_arquivo_zip):
     shutil.move('{}'.format(nome_do_arquivo_zip), './data/JSON/PF')
 
     print('Arquivo lido e movido para /data/JSON/PF')
+
+
+def importMongo(nome_arquivo):
+
+    client = MongoClient('localhost', 27017)
+    db = client.dados
+    collection_currency = db.socios
+
+    print(collection_currency)
+
+    with open('{}'.format(nome_arquivo)) as f:
+        file_data = json.load(f)
+
+    # if pymongo >= 3.0 use insert_one() for inserting one document
+    collection_currency.insert_one(file_data)
+    client.close()
+    print('Arquivo importado.')
 
 
 def lendoArquivos():
@@ -33,11 +46,9 @@ def lendoArquivos():
 
                 teste = listdir('api/socios_json/')
 
-                # cds.lerJson('api/socios_json/'+teste[0])
-                # bps.lerJson('api/socios_json/'+teste[0])
-                # ce.lerJson('api/socios_json/'+teste[0])
-                # contatoEmail.lerJson('api/socios_json/'+teste[0])
-                contatoTelefones.lerJson('api/socios_json/'+teste[0])
-
+                importMongo('api/socios_json/'+teste[0])
                 movendoArquivo(meuZip.filename)
                 # os.remove('api/socios_json/'+teste[0])
+
+
+lendoArquivos()
