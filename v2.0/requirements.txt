@@ -1,4 +1,1 @@
-pandas
-numpy
-numexpr
-python-dotenv
+pymongo==3.10.1
