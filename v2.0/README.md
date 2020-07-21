@@ -29,7 +29,7 @@ Configurando o ambiente:
 virtualenv -p python3.8 env
 source env/bin/activate
 pip install -U pip
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 Rodando projeto para geração dos relatórios:
