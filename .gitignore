@@ -128,8 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#Ignorando dataset
-data/CNPJ_full.db
-
 #Ignorando VSCode
 .vscode
+
+#Ignorando dataset
+*.db
