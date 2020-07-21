@@ -21,11 +21,11 @@ def importMongo(nome_arquivo):
     db = client.dados
     collection_currency = db.socios
 
-    print(collection_currency)
-
-    with open('{}'.format(nome_arquivo)) as f:
-        file_data = json.load(f)
-
+    try:
+        with open('{}'.format(nome_arquivo)) as f:
+            file_data = json.load(f)
+    except TypeError as e:
+        print('Erro no aquivo: ', e)
     # if pymongo >= 3.0 use insert_one() for inserting one document
     collection_currency.insert_one(file_data)
     client.close()
@@ -40,15 +40,14 @@ def lendoArquivos():
 
             with zip.ZipFile('teste/{}'.format(i), 'r') as meuZip:
 
-                # print(meuZip.filename)
-
                 meuZip.extractall(path='api/')
 
                 teste = listdir('api/socios_json/')
 
                 importMongo('api/socios_json/'+teste[0])
                 movendoArquivo(meuZip.filename)
-                # os.remove('api/socios_json/'+teste[0])
 
 
-lendoArquivos()
+if __name__ == "__main__":
+
+    lendoArquivos()
