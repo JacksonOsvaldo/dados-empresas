@@ -44,18 +44,23 @@ filter = {
     ]
 }
 
-result = client['dados']['empresas'].find(
-    filter=filter
-)
+result = client['dados']['empresas'].find(filter=filter)
 
 a = 0
 
 for i in result:
-    a += 1
-    # b = i.get('result').get('')
+
     for j in i.get('result'):
-        # print(j.get('empresa'))
-        for k in j.get('empresa'):
-            print(k['cadastral'])
-            if a == 3:
-                break
+
+        a += 1
+
+        item = j.get('empresa')
+
+        # keys = ','.join(item.keys())
+
+        values = tuple(item.values())
+        print(j)
+
+        # if j['empresa']['firmografico']['cnae'][0]['cnae_codigo'] == '6911701':
+
+        #     print(j)
