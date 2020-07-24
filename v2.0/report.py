@@ -11,6 +11,7 @@ A planilha precisa ter os seguintes campos:
 
 - CNPJ,
 - RAZÃO SOCIAL,
+- SITUAÇÃO CADASTRAL,
 - DATA DE ABERTURA,
 - CNAE CÓDIGO,
 - CNAE DESCRIÇÃO,
@@ -80,17 +81,20 @@ for i in result:
         if a == 1:
 
             empresas.write(
-                'CNPJ;RAZÃO SOCIAL;DATA DE ABERTURA;CNAE CÓDIGO;CNAE DESCRIÇÃO;PORTE;FAIXA DE FUNCIONÁRIOS;FAIXA DE FUNCIONÁRIOS FATURA;UF;CIDADE;LOGRADOURO;E-MAIL;TELEFONE\n')
+                'CNPJ;RAZÃO SOCIAL;SITUAÇÃO CADASTRAL;DATA DE ABERTURA;CNAE CÓDIGO;CNAE DESCRIÇÃO;PORTE;FAIXA DE FUNCIONÁRIOS;FAIXA DE FUNCIONÁRIOS FATURA;UF;CIDADE;LOGRADOURO;E-MAIL;TELEFONE\n')
 
         for j in i.get('result'):
 
             if j['empresa']['firmografico']['cnae'][0]['cnae_codigo'] == '{}'.format(numero_cnae) and j['empresa']['contato']['endereco'][0]['cidade'] == '{}'.format(cidade):
 
                 email = pegarValores(j['empresa']['contato']['email'])
+
                 telefone = pegarValores(j['empresa']['contato']['telefone'])
+
                 empresas.write(str(j['empresa']['cadastral']['CNPJ']) +
                                ';' + str(j['empresa']['cadastral']['razaoSocial']) +
-                               ';'+str(j['empresa']['cadastral']['dataAbertura']) +
+                               ';' + str(j['empresa']['cadastral']['situacaoCadastral']) +
+                               ';' + str(j['empresa']['cadastral']['dataAbertura']) +
                                ';' + str(j['empresa']['firmografico']['cnae'][0]['cnae_codigo']) +
                                ';' + str(j['empresa']['firmografico']['cnae'][0]['cnae_descricao']) +
                                ';' + str(j['empresa']['firmografico']['porte']) +

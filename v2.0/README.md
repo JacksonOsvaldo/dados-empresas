@@ -9,6 +9,7 @@ A planilha precisa ter os seguintes campos:
 
 - CNPJ,
 - RAZÃO SOCIAL,
+- SITUAÇÃO CADASTRAL,
 - DATA DE ABERTURA,
 - CNAE CÓDIGO,
 - CNAE DESCRIÇÃO,
