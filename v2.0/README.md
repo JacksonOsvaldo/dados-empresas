@@ -32,7 +32,15 @@ pip install -U pip
 pip install -r requirements.txt
 ```
 
-Rodando projeto para geração dos relatórios:
+Antes de executar o script *report.py*, certifique-se de mudar o URI do banco de dados.
+
+Mude apenas o URI de:
+
+```
+client = MongoClient(URI)
+```
+
+Depois de feito isso, é só executar o script.
 
 ```
 python report.py
