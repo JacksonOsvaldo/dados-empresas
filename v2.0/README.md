@@ -45,3 +45,5 @@ Depois de feito isso, é só executar o script.
 ```
 python report.py
 ```
+
+Uma coisa importante de se comentar é que o cnae inserido deve ser no formato numérico, sem áspas. Assim, o nome da cidade deve ser inserido no formato string, sem áspas. Além disso, o nome da cidade deve ser inserido em caixa alta e sem caractéres especiais.
