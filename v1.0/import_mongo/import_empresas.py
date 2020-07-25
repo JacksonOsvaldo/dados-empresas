@@ -38,6 +38,7 @@ def importMongo(nome_arquivo):
 def lendoArquivos():
 
     path = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/teste'
+    pasta_extrair = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/api'
 
     for filename in glob.glob(os.path.join(path, '*.zip')):
 
@@ -45,21 +46,25 @@ def lendoArquivos():
 
         with zip.ZipFile(filename, 'r') as meuZip:
 
-            meuZip.extractall(
-                path='/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/api')
+            # Extraindo ZIP para o caminho indicado na variável pasta_extrair
+            meuZip.extractall(path=pasta_extrair)
 
+            # Diretório para onde os JSON Foram extraídos.
             json_folder = listdir(
                 '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/api/cnpjs_json')
 
+            # Caminho do JSON extraído.
             json_file = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/api/cnpjs_json/' + \
                 json_folder[0]
 
+            # Importando JSON para o mongo.
             importMongo(json_file)
 
+            # Removendo JSON
             os.remove(json_file)
-
             print('Arquivo JSON excluido')
 
+            # Movendo ZIP para outra pasta.
             movendoArquivo(meuZip.filename)
 
 
