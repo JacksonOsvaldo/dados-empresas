@@ -65,7 +65,11 @@ def lendoArquivos():
             print('Arquivo JSON excluido')
 
             # Movendo ZIP para outra pasta.
-            movendoArquivo(meuZip.filename)
+            try:
+                movendoArquivo(meuZip.filename)
+            except shutil.Error as e:
+                print('Arquivo já existe: ', e)
+                os.remove(meuZip.filename)
 
 
 if __name__ == "__main__":
