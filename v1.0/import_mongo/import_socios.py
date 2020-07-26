@@ -67,9 +67,13 @@ def lendoArquivos():
 
             # Movendo ZIP para outra pasta.
             try:
+
                 movendoArquivo(meuZip.filename)
+
             except shutil.Error as e:
+
                 print('Arquivo já existe: ', e)
+
                 os.remove(meuZip.filename)
 
 

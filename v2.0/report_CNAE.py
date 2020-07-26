@@ -30,29 +30,16 @@ from pymongo import MongoClient
 
 numero_cnae = input('CNAE desejado: ')
 
-cidade = input('Cidade desejada: ')
-
 client = MongoClient(
     'mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false')
-filter = {
-    '$and': [
-        {
-            'result.empresa.firmografico.cnae.cnae_codigo': {
-                '$eq': '{}'.format(numero_cnae)
-            }
-        },
-        {
-            'result.empresa.contato.endereco.cidade': {
-                '$eq': '{}'.format(cidade)
-            }
-        }
-    ]
-}
+
+filter = {'result.empresa.firmografico.cnae.cnae_codigo': {
+    '$eq': '{}'.format(numero_cnae)}}
 
 result = client['dados']['empresas'].find(filter=filter)
 
-empresas = open("lista_empresas_{}_{}.csv".format(
-    numero_cnae, cidade), "w")  # Arquivo .csv gerado
+empresas = open("lista_empresas_{}.csv".format(
+    numero_cnae), "w")  # Arquivo .csv gerado
 
 a = 0
 
@@ -85,7 +72,7 @@ for i in result:
 
         for j in i.get('result'):
 
-            if j['empresa']['firmografico']['cnae'][0]['cnae_codigo'] == '{}'.format(numero_cnae) and j['empresa']['contato']['endereco'][0]['cidade'] == '{}'.format(cidade):
+            if j['empresa']['firmografico']['cnae'][0]['cnae_codigo'] == '{}'.format(numero_cnae):
 
                 email = pegarValores(j['empresa']['contato']['email'])
 
@@ -117,6 +104,6 @@ for i in result:
     except:
         erro_dados += 1
 
-print('Informações encontradas: {}\nInformações não-válidas: {}\nDocumentos sem CNAE (ERROR): {}\nDocumento salvo como: lista_empresas_{}_{}.csv'.format(encon,
-                                                                                                                                                         nao_encon, erro_dados, numero_cnae, cidade))
+print('Informações encontradas: {}\nInformações não-válidas: {}\nDocumentos sem CNAE (ERROR): {}\nDocumento salvo como: lista_empresas_{}.csv'.format(encon,
+                                                                                                                                                      nao_encon, erro_dados, numero_cnae))
 empresas.close()
