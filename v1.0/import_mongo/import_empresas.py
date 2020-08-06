@@ -33,7 +33,7 @@ def importMongo(nome_arquivo, collection_db):
 
 def lendoArquivos():
 
-    path = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/teste'
+    path = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/teste/*/*/'
     pasta_extrair = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/api'
 
     # Criando conexão com DB
@@ -66,17 +66,6 @@ def lendoArquivos():
             # Removendo JSON
             os.remove(json_file)
             print('Arquivo JSON excluido')
-
-            # Movendo ZIP para outra pasta.
-            try:
-
-                movendoArquivo(meuZip.filename)
-
-            except shutil.Error as e:
-
-                print('Arquivo já existe: ', e)
-
-                os.remove(meuZip.filename)
 
     # Fechando cliente do servidor depois de realizado processo de inserção dos JSON
     print('\nProcesso concluído\nFechando conexão...')
