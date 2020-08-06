@@ -10,10 +10,21 @@ from pymongo import MongoClient
 
 def movendoArquivo(nome_do_arquivo_zip):
 
-    shutil.move('{}'.format(nome_do_arquivo_zip),
-                '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/CNPJ')
+    fileName_absolute = os.path.basename(nome_do_arquivo_zip)
 
-    print('ZIP lido e movido para /data/JSON/CNPJ')
+    pasta = fileName_absolute.replace('.zip', '')[0:2]
+    sub_pasta = fileName_absolute.replace('.zip', '')[2:5]
+
+    try:
+        shutil.move('{}'.format(nome_do_arquivo_zip),
+                    '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/CNPJ/{}/{}/'.format(pasta, sub_pasta))
+        print('ZIP lido e movido para /data/JSON/CNPJ')
+    except:
+        os.makedirs(
+            '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/CNPJ/{}/{}/'.format(pasta, sub_pasta))
+        shutil.move(nome_do_arquivo_zip,
+                    '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/CNPJ/{}/{}/'.format(pasta, sub_pasta))
+        print('ZIP lido e movido para /data/JSON/CNPJ')
 
 
 def importMongo(nome_arquivo, collection_db):
@@ -67,7 +78,16 @@ def lendoArquivos():
             os.remove(json_file)
             print('Arquivo JSON excluido')
 
+            # Movendo ZIP para outra pasta.
+            try:
+                movendoArquivo(meuZip.filename)
+                # shutil.rmtree(os.path.dirname(meuZip.filename))
+            except:
+                print('Arquivo já existe')
+                os.remove(meuZip.filename)
+
     # Fechando cliente do servidor depois de realizado processo de inserção dos JSON
+
     print('\nProcesso concluído\nFechando conexão...')
     client.close()
     print('Conexão encerrada.')
