@@ -13,8 +13,16 @@ from pymongo import MongoClient
 
 def movendoArquivo(nome_do_arquivo_zip):
 
-    shutil.move('{}'.format(nome_do_arquivo_zip),
-                '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF')
+    fileName_absolute = os.path.basename(nome_do_arquivo_zip)
+
+    nomeArquivo = fileName_absolute.replace('.zip', '')
+    nomesPastas = nomeArquivo.split(' ')
+
+    os.makedirs('/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+        nomesPastas[0][0], nomesPastas[1][0]), exist_ok=True)
+
+    shutil.move(nome_do_arquivo_zip, '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+        nomesPastas[0][0], nomesPastas[1][0]))
 
     print('ZIP lido e movido para /data/JSON/PF')
 
@@ -35,7 +43,7 @@ def importMongo(nome_arquivo, collection_db):
 
 def lendoArquivos():
 
-    path = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/teste'
+    path = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/teste/*/*/'
     pasta_extrair = '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/api'
 
     # Criando conexão com DB
