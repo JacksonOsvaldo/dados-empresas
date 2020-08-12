@@ -18,13 +18,21 @@ def movendoArquivo(nome_do_arquivo_zip):
     nomeArquivo = fileName_absolute.replace('.zip', '')
     nomesPastas = nomeArquivo.split(' ')
 
-    os.makedirs('/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
-        nomesPastas[0][0], nomesPastas[1][0]), exist_ok=True)
+    try:
+        os.makedirs('/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+            nomesPastas[0][0], nomesPastas[1][0]), exist_ok=True)
 
-    shutil.move(nome_do_arquivo_zip, '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
-        nomesPastas[0][0], nomesPastas[1][0]))
+        shutil.move(nome_do_arquivo_zip, '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+            nomesPastas[0][0], nomesPastas[1][0]))
 
-    print('ZIP lido e movido para /data/JSON/PF')
+        print('ZIP lido e movido para /data/JSON/PF')
+
+    except IndexError:
+
+        os.makedirs('/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+            nomesPastas[0][0], nomesPastas[0][1]), exist_ok=True)
+        shutil.move(nome_do_arquivo_zip, '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+            nomesPastas[0][0], nomesPastas[0][1]))
 
 
 def importMongo(nome_arquivo, collection_db):

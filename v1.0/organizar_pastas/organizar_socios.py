@@ -23,7 +23,15 @@ for fileName_relative in glob.glob("/home/jacksonosvaldo/Documentos/GitHub_Proje
             nomesPastas[0][0], nomesPastas[1][0]), exist_ok=True)
         shutil.move(fileName_relative, '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
             nomesPastas[0][0], nomesPastas[1][0]))
+
     except shutil.Error:
+
         os.remove(fileName_relative)
+
+    except IndexError:
+        os.makedirs('/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+            nomesPastas[0][0], nomesPastas[0][1]), exist_ok=True)
+        shutil.move(fileName_relative, '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
+            nomesPastas[0][0], nomesPastas[0][1]))
 
 print('Processo concluido.')
