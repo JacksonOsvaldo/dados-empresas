@@ -30,8 +30,8 @@ for fileName_relative in glob.glob("/home/jacksonosvaldo/Documentos/GitHub_Proje
 
     except IndexError:
         os.makedirs('/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
-            nomesPastas[0][0], nomesPastas[0][1]), exist_ok=True)
+            nomesPastas[0][0], nomesPastas[0][0]), exist_ok=True)
         shutil.move(fileName_relative, '/home/jacksonosvaldo/Documentos/GitHub_Projetos/dados-empresas/v1.0/data/JSON/PF/{}/{}/'.format(
-            nomesPastas[0][0], nomesPastas[0][1]))
+            nomesPastas[0][0], nomesPastas[0][0]))
 
 print('Processo concluido.')
